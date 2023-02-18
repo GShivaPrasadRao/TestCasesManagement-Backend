@@ -1,9 +1,11 @@
-package com.bezkoder.spring.data.mongodb.controller;
+package com.buildtechknowledge.spring.data.mongodb.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.buildtechknowledge.spring.data.mongodb.exception.ResourceNotFoundException;
+import com.buildtechknowledge.spring.data.mongodb.model.Tutorial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bezkoder.spring.data.mongodb.model.TestCase;
-import com.bezkoder.spring.data.mongodb.repository.TestCaseRepository;
+import com.buildtechknowledge.spring.data.mongodb.model.TestCase;
+import com.buildtechknowledge.spring.data.mongodb.repository.TestCaseRepository;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -29,69 +31,78 @@ public class TestCaseController {
     @Autowired
     TestCaseRepository testCaseRepository;
 
-    @GetMapping("/testCases")
-    public ResponseEntity<List<TestCase>> getAllTestCases(@RequestParam(required = false) String sprint) {
+    //List all Test Cases
+    @GetMapping("/testcases")
+    public List<TestCase> getAllTestCases() {
+        System.out.println("********Get List of testcases ********");
+
+        return testCaseRepository.findAll();
+    }
+
+    //Create Test Case
+    @PostMapping("/testcases")
+    public ResponseEntity<TestCase> createTestCase(@RequestBody TestCase testCaseDetails) {
+        System.out.println("*****Create Test Case*********");
+
         try {
-            List<TestCase> testCases = new ArrayList<TestCase>();
-
-            if (sprint == null)
-                testCaseRepository.findAll().forEach(testCases::add);
-            else
-                testCaseRepository.findBySprint(sprint).forEach(testCases::add);
-
-            if (testCases.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(testCases, HttpStatus.OK);
+            TestCase testCase = testCaseRepository.save(testCaseDetails);
+            return new ResponseEntity<>(testCase, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/testCases/{id}")
+
+    //Get Test Case by Id
+    @GetMapping("/testcases/id/{id}")
     public ResponseEntity<TestCase> getTestCaseById(@PathVariable("id") String id) {
-        Optional<TestCase> testCaseData = testCaseRepository.findById(id);
 
-        if (testCaseData.isPresent()) {
-            return new ResponseEntity<>(testCaseData.get(), HttpStatus.OK);
+//        System.out.println("*****Get Test Case by ID*********");
+//
+//        TestCase testCase = testCaseRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException
+//                        ("Test Case not exist with id :" + id));
+//        return ResponseEntity.ok(testCase);
+
+
+        Optional<TestCase> testCase = testCaseRepository.findById(id);
+
+        if (testCase.isPresent()) {
+            return new ResponseEntity<>(testCase.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PostMapping("/testCases")
-    public ResponseEntity<TestCase> createTestCase(@RequestBody TestCase testCase) {
-        try {
-            TestCase _testCase = testCaseRepository.save(testCase);
-            return new ResponseEntity<>(_testCase, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
+    //Update Test Case
+    @PutMapping("/testcases/{id}")
+    public ResponseEntity<TestCase> updateTestCase(@PathVariable("id") String id, @RequestBody TestCase testCaseDetails) {
+
+        System.out.println("*****Update Test Case by ID*********");
+          TestCase testCase = testCaseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException
+                        ("Test Case not exist with id :" + id));
+
+        testCase.setModule(testCaseDetails.getModule());
+        testCase.setScreenName(testCaseDetails.getScreenName());
+        testCase.setName(testCaseDetails.getName());
+        testCase.setDescription(testCaseDetails.getDescription());
+        testCase.setStatus(testCaseDetails.getStatus());
+        testCase.setType(testCaseDetails.getType());
+        testCase.setComments(testCaseDetails.getComments());
+        TestCase updatedTestCase = testCaseRepository.save(testCase);
+
+        return ResponseEntity.ok(updatedTestCase);
+
     }
 
-    @PutMapping("/testCases/{id}")
-    public ResponseEntity<TestCase> updateTestCase(@PathVariable("id") String id, @RequestBody TestCase testCase) {
-        Optional<TestCase> testCaseData = testCaseRepository.findById(id);
-
-        if (testCaseData.isPresent()) {
-            TestCase _testCase = testCaseData.get();
-            _testCase.setScreenName(testCase.getScreenName());
-            _testCase.setDescription(testCase.getDescription());
-            _testCase.setSprint(testCase.getSprint());
-            _testCase.setComments(testCase.getComments());
-            _testCase.setStatus(testCase.getStatus());
-            _testCase.setType(testCase.getType());
-
-            return new ResponseEntity<>(testCaseRepository.save(_testCase), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @DeleteMapping("/testCases/{id}")
+    //Delete test case by ID
+    @DeleteMapping("/testcases/id/{id}")
     public ResponseEntity<HttpStatus> deleteTestCase(@PathVariable("id") String id) {
         try {
+            System.out.println("*****Delete Test Case by ID*********");
+
             testCaseRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
@@ -99,9 +110,12 @@ public class TestCaseController {
         }
     }
 
-    @DeleteMapping("/testCases")
+    //Delete all Test Cases
+    @DeleteMapping("/testcases")
     public ResponseEntity<HttpStatus> deleteAllTestCases() {
         try {
+            System.out.println("*****Delete all Test Cases*********");
+
             testCaseRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
@@ -109,10 +123,12 @@ public class TestCaseController {
         }
     }
 
-    @GetMapping("/testCases/published")
-    public ResponseEntity<List<TestCase>> findByStatus(String status) {
+    //Get Test Cases by status
+    @GetMapping("/testcases/status/{status}")
+    public ResponseEntity<List<TestCase>> findByStatus(@PathVariable String status) {
+
         try {
-            System.out.println();
+            System.out.println("*****Test Case By Status*********");
             List<TestCase> testCases = testCaseRepository.findByStatus(status);
 
             if (testCases.isEmpty()) {
@@ -123,5 +139,10 @@ public class TestCaseController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+//    @GetMapping("/testcases/")
+//    public List<TestCase> getTestCaseByStatus(@RequestParam(value="status") String status ){
+//        return testCaseRepository.findByStatus(status);
+//    }
 
 }

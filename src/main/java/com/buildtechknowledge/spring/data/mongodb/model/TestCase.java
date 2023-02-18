@@ -1,4 +1,4 @@
-package com.bezkoder.spring.data.mongodb.model;
+package com.buildtechknowledge.spring.data.mongodb.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -7,17 +7,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class TestCase {
     @Id
     private String id;
-    private String sprint;
+    private String module;
     private String screenName;
+    private String name;
     private String description;
     private String type;
     private String status;
     private String comments;
 
-    public TestCase(String id, String sprint, String screenName, String description, String type, String status, String comments) {
+    public TestCase(String id, String module, String screenName, String name, String description, String type, String status, String comments) {
         this.id = id;
-        this.sprint = sprint;
+        this.module = module;
         this.screenName = screenName;
+        this.name = name;
         this.description = description;
         this.type = type;
         this.status = status;
@@ -32,12 +34,20 @@ public class TestCase {
         this.id = id;
     }
 
-    public String getSprint() {
-        return sprint;
+    public String getModule() {
+        return module;
     }
 
-    public void setSprint(String sprint) {
-        this.sprint = sprint;
+    public void setModule(String module) {
+        this.module = module;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getScreenName() {
@@ -84,8 +94,9 @@ public class TestCase {
     public String toString() {
         return "TestCase{" +
                 "id='" + id + '\'' +
-                ", sprint='" + sprint + '\'' +
+                ", module='" + module + '\'' +
                 ", screenName='" + screenName + '\'' +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", type='" + type + '\'' +
                 ", status='" + status + '\'' +

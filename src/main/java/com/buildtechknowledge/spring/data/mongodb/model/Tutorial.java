@@ -22,7 +22,10 @@ public class Tutorial {
     this.published = published;
   }
 
-  public String getId() {
+    public Tutorial(long id, String title, String description, boolean published) {
+    }
+
+    public String getId() {
     return id;
   }
 

@@ -3,6 +3,8 @@ package com.buildtechknowledge.spring.data.mongodb.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Document(collection = "testcases")
 public class TestCase {
     @Id
@@ -14,8 +16,14 @@ public class TestCase {
     private String type;
     private String status;
     private String comments;
+    private Date createdDate;
 
-    public TestCase(String id, String module, String screenName, String name, String description, String type, String status, String comments) {
+    public TestCase()
+    {
+
+    }
+
+    public TestCase(String id, String module, String screenName, String name, String description, String type, String status, String comments,Date createdDate) {
         this.id = id;
         this.module = module;
         this.screenName = screenName;
@@ -24,6 +32,8 @@ public class TestCase {
         this.type = type;
         this.status = status;
         this.comments = comments;
+        this.createdDate = createdDate;
+
     }
 
     public String getId() {
@@ -90,6 +100,14 @@ public class TestCase {
         this.comments = comments;
     }
 
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
     @Override
     public String toString() {
         return "TestCase{" +
@@ -101,6 +119,7 @@ public class TestCase {
                 ", type='" + type + '\'' +
                 ", status='" + status + '\'' +
                 ", comments='" + comments + '\'' +
+                ", createdDate=" + createdDate +
                 '}';
     }
 }

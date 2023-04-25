@@ -37,7 +37,8 @@ public class CSVHelper {
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
             for (CSVRecord csvRecord : csvRecords) {
                 Tutorial tutorial = new Tutorial(
-                        Long.parseLong(csvRecord.get("Id")),
+//                        Long.parseLong(csvRecord.get("Id")),
+                        csvRecord.get("Id"),
                         csvRecord.get("Title"),
                         csvRecord.get("Description"),
                         Boolean.parseBoolean(csvRecord.get("Published"))

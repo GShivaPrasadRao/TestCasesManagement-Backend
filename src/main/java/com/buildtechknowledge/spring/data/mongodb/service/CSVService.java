@@ -15,6 +15,7 @@ import java.util.List;
 public class CSVService {
     @Autowired
     TutorialRepository tutorialRepository;
+
     public void save(MultipartFile file) {
         try {
             List<Tutorial> tutorials = CSVHelper.csvToTutorials(file.getInputStream());
@@ -24,6 +25,7 @@ public class CSVService {
         }
     }
     public List<Tutorial> getAllTutorials() {
+
         return tutorialRepository.findAll();
     }
 }

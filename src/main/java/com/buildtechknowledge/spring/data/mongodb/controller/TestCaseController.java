@@ -1,13 +1,11 @@
 package com.buildtechknowledge.spring.data.mongodb.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.buildtechknowledge.spring.data.mongodb.exception.ResourceNotFoundException;
 import com.buildtechknowledge.spring.data.mongodb.helper.ExcelHelper;
 import com.buildtechknowledge.spring.data.mongodb.message.ResponseMessage;
-import com.buildtechknowledge.spring.data.mongodb.model.Tutorial;
 import com.buildtechknowledge.spring.data.mongodb.service.ExcelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,15 +65,6 @@ public class TestCaseController {
     //Get Test Case by Id
     @GetMapping("/testcases/id/{id}")
     public ResponseEntity<TestCase> getTestCaseById(@PathVariable("id") String id) {
-
-//        System.out.println("*****Get Test Case by ID*********");
-//
-//        TestCase testCase = testCaseRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException
-//                        ("Test Case not exist with id :" + id));
-//        return ResponseEntity.ok(testCase);
-
-
         Optional<TestCase> testCase = testCaseRepository.findById(id);
 
         if (testCase.isPresent()) {
@@ -91,7 +80,7 @@ public class TestCaseController {
     public ResponseEntity<TestCase> updateTestCase(@PathVariable("id") String id, @RequestBody TestCase testCaseDetails) {
 
         System.out.println("*****Update Test Case by ID*********");
-          TestCase testCase = testCaseRepository.findById(id)
+        TestCase testCase = testCaseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException
                         ("Test Case not exist with id :" + id));
 
@@ -151,12 +140,8 @@ public class TestCaseController {
         }
     }
 
-//    @GetMapping("/testcases/")
-//    public List<TestCase> getTestCaseByStatus(@RequestParam(value="status") String status ){
-//        return testCaseRepository.findByStatus(status);
-//    }
 
-    @PostMapping("/testcases/uploadtc")
+    @PostMapping("/testcases/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         logger.info("Upload");
         String message = "";

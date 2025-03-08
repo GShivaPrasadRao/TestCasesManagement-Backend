@@ -14,26 +14,26 @@ import java.util.List;
 
 @Service
 public class ExcelService {
-  @Autowired
-  TestCaseRepository repository;
+    @Autowired
+    TestCaseRepository repository;
 
-  public void save(MultipartFile file) {
-    try {
-      List<TestCase> testcases = ExcelHelper.excelToTestCases(file.getInputStream());
-      repository.saveAll(testcases);
-    } catch (IOException e) {
-      throw new RuntimeException("fail to store excel data: " + e.getMessage());
+    public void save(MultipartFile file) {
+        try {
+            List<TestCase> testcases = ExcelHelper.excelToTestCases(file.getInputStream());
+            repository.saveAll(testcases);
+        } catch (IOException e) {
+            throw new RuntimeException("fail to store excel data: " + e.getMessage());
+        }
     }
-  }
 
-  public ByteArrayInputStream load() {
-    List<TestCase> testcases = repository.findAll();
+    public ByteArrayInputStream load() {
+        List<TestCase> testcases = repository.findAll();
 
 //    ByteArrayInputStream in = ExcelHelper.testcasesToExcel(testcases);
-    return ExcelHelper.testcasesToExcel(testcases);
-  }
+        return ExcelHelper.testcasesToExcel(testcases);
+    }
 
-  public List<TestCase> getAllTestCases() {
-    return repository.findAll();
-  }
+    public List<TestCase> getAllTestCases() {
+        return repository.findAll();
+    }
 }

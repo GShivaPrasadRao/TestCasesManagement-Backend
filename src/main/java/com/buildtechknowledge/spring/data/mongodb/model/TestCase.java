@@ -13,15 +13,22 @@ import java.util.Date;
 public class TestCase {
     @Id
     private String id;
+
+    private String projectID;
     private String module;
     private String screenName;
-    private String name;
+    private String testCaseName;
     private String description;
     private String type;
-    private String status;
+    private String expectedResult;
+    private String automationStatus;
+    private String priority;
     private String comments;
-    private String projectID;
+    private String createdBy;
     private Date createdDate;
+    private String updatedBy;
+    private Date updatedDate;
+    private String version;
 
 
 }

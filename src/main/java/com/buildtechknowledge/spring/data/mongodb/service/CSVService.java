@@ -24,6 +24,7 @@ public class CSVService {
             throw new RuntimeException("fail to store csv data: " + e.getMessage());
         }
     }
+
     public List<Tutorial> getAllTutorials() {
 
         return tutorialRepository.findAll();

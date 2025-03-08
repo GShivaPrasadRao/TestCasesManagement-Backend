@@ -23,6 +23,7 @@ import java.util.List;
 public class CSVController {
     @Autowired
     CSVService fileService;
+
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
@@ -39,6 +40,7 @@ public class CSVController {
         message = "Please upload a csv file!";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
     }
+
     @GetMapping("/tutorials")
     public ResponseEntity<List<Tutorial>> getAllTutorials() {
         try {

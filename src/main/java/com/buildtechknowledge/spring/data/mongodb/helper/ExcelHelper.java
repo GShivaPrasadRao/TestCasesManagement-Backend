@@ -54,11 +54,11 @@ public class ExcelHelper {
                 row.createCell(0).setCellValue(testcase.getId());
                 row.createCell(1).setCellValue(testcase.getModule());
                 row.createCell(2).setCellValue(testcase.getScreenName());
-                row.createCell(3).setCellValue(testcase.getName());
+                row.createCell(3).setCellValue(testcase.getTestCaseName());
                 row.createCell(4).setCellValue(testcase.getDescription());
 
                 row.createCell(5).setCellValue(testcase.getType());
-                row.createCell(6).setCellValue(testcase.getStatus());
+                row.createCell(6).setCellValue(testcase.getAutomationStatus());
                 row.createCell(7).setCellValue(testcase.getComments());
 
 
@@ -121,7 +121,7 @@ public class ExcelHelper {
                             break;
 
                         case 2:
-                            testcase.setName(currentCell.getStringCellValue());
+                            testcase.setTestCaseName(currentCell.getStringCellValue());
                             break;
 
                         case 3:
@@ -133,7 +133,7 @@ public class ExcelHelper {
                             break;
 
                         case 5:
-                            testcase.setStatus(currentCell.getStringCellValue());
+                            testcase.setAutomationStatus(currentCell.getStringCellValue());
                             break;
 
                         case 6:

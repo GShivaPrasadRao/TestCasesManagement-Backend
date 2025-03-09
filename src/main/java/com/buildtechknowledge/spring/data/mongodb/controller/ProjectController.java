@@ -2,10 +2,12 @@ package com.buildtechknowledge.spring.data.mongodb.controller;
 
 
 import com.buildtechknowledge.spring.data.mongodb.exception.ResourceNotFoundException;
+import com.buildtechknowledge.spring.data.mongodb.message.ResponseMessage;
 import com.buildtechknowledge.spring.data.mongodb.model.Project;
 import com.buildtechknowledge.spring.data.mongodb.service.ProjectService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +35,9 @@ public class ProjectController {
     }
 
     @PostMapping
-    public Project createProject(@Valid @RequestBody Project project) {
-        return projectService.createProject(project);
+    public ResponseEntity<?> createProject(@Valid @RequestBody Project project) {
+        ResponseMessage savedProject = projectService.createProject(project);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedProject);
     }
 
     @PutMapping("/{projectID}")

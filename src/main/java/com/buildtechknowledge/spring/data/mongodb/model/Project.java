@@ -2,6 +2,7 @@ package com.buildtechknowledge.spring.data.mongodb.model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -22,11 +23,13 @@ public class Project {
     private String projectID;
 
     @NotBlank(message = "Project Name cannot be empty or null")
+    @Size(min = 3, max = 50, message = "Project name must be between 3 and 25 characters.")
     @Indexed(unique = true)
     @Pattern(regexp = "^[A-Za-z ]+$", message = "Project Name must contain only alphabetical characters and spaces, and no numbers or special characters")
     private String projectName;
 
     @NotBlank(message = "Project Description cannot be empty or null")
+    @Size(min = 3, max = 50, message = "Project name must be between 3 and 50 characters.")
     @Indexed(unique = true)
     // This pattern allows letters, spaces, and special characters but no digits.
     @Pattern(regexp = "^(?!.*\\d).+$", message = "Project Description must not contain any numbers")

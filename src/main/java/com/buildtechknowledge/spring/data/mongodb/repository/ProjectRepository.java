@@ -20,4 +20,8 @@ public interface ProjectRepository extends MongoRepository<Project, String> {
 
     @Query("{ 'projectName' : { $regex: ?0, $options: 'i' } }")
     boolean existsByNormalizedProjectName(String projectName);
+
+    //Delete all the Projects
+    void deleteAll();
+
 }

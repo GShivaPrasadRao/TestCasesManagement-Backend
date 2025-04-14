@@ -51,4 +51,11 @@ public class ProjectController {
         projectService.deleteProjectByProjectID(projectID);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping
+    public ResponseEntity<Project> deleteProjects()
+    {
+        projectService.deleteAll();
+        return ResponseEntity.noContent().build();
+    }
 }

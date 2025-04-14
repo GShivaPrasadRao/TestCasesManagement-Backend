@@ -17,7 +17,7 @@ public class SequenceGeneratorService {
     @Autowired
     private MongoOperations mongoOperations;
 
-    public String generateProjectID(String seqName, String prefix) {
+    public String generateID(String seqName, String prefix) {
         DatabaseSequence counter = mongoOperations.findAndModify(
                 Query.query(Criteria.where("_id").is(seqName)),
                 new Update().inc("seq", 1),

@@ -61,7 +61,7 @@ public class ProjectService {
 
             // Generate an ID if none provided
             if (project.getProjectID() == null || project.getProjectID().trim().isEmpty()) {
-                String generatedID = sequenceGeneratorService.generateProjectID("project_sequence", "PROJECT");
+                String generatedID = sequenceGeneratorService.generateID("project_sequence", "PROJECT");
                 project.setProjectID(generatedID);
             }
 
@@ -179,4 +179,8 @@ public class ProjectService {
     }
 
 
+    //Delete all Projects
+    public void deleteAll() {
+        projectRepository.deleteAll();
+    }
 }

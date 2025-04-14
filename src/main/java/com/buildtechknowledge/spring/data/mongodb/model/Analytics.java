@@ -1,4 +1,3 @@
-// src/main/java/com/testmanagement/model/Analytics.java
 package com.buildtechknowledge.spring.data.mongodb.model;
 
 import org.springframework.data.annotation.Id;

@@ -1,12 +1,15 @@
 package com.buildtechknowledge.spring.data.mongodb.implementation;
 
 import com.buildtechknowledge.spring.data.mongodb.exception.ResourceNotFoundException;
+import com.buildtechknowledge.spring.data.mongodb.message.ApiResponse;
+import com.buildtechknowledge.spring.data.mongodb.message.ErrorCode;
 import com.buildtechknowledge.spring.data.mongodb.message.ResponseMessage;
 import com.buildtechknowledge.spring.data.mongodb.model.TestCase;
 import com.buildtechknowledge.spring.data.mongodb.repository.TestCaseRepository;
 import com.buildtechknowledge.spring.data.mongodb.service.SequenceGeneratorService;
 import com.buildtechknowledge.spring.data.mongodb.service.TestCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -83,6 +86,28 @@ public class TestCaseServiceImpl implements TestCaseService {
             return "TestCase :" + testCaseID + " deleted successfully";
         } else {
             throw new ResourceNotFoundException("TestCase with ID <" + testCaseID + "> not found");
+        }
+    }
+
+    @Override
+    public ApiResponse<String>  deleteAllTestCases() {
+        List<TestCase> testCases = testCaseRepository.findAll(); // Fetch all test cases
+
+        if (testCases.isEmpty()) {
+            return new ApiResponse<>(
+                    "No test cases available to delete.",
+                    null,
+                    HttpStatus.NOT_FOUND.value(),
+                    ErrorCode.ENTITY_NOT_FOUND
+            );
+        } else {
+            testCaseRepository.deleteAll();
+            return new ApiResponse<>(
+                    "All test cases have been deleted successfully.",
+                    null,
+                    HttpStatus.OK.value(),
+                    null
+            );
         }
     }
 
